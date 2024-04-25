@@ -10,8 +10,10 @@ import SwiftUI
 struct ContentView: View {
   
   var body: some View {
-    CharacterListview()
-      .environment(RickAndMortyNetworkClient(networkService: NetworkService()))
+    NavigationStack {
+      CharacterListview()
+        .environment(RickAndMortyNetworkClient(networkService: NetworkService()))
+    }
   }
 }
 

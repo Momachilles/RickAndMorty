@@ -108,10 +108,10 @@
 		4EDE4F6D2BDA84ED002F7671 /* RickAndMorty */ = {
 			isa = PBXGroup;
 			children = (
+				4EDE4F6E2BDA84ED002F7671 /* RickAndMortyApp.swift */,
 				4EDE4FAB2BDA9924002F7671 /* Views */,
 				4EDE4F992BDA84FA002F7671 /* Network */,
 				4EDE4F982BDA84F5002F7671 /* Model */,
-				4EDE4F6E2BDA84ED002F7671 /* RickAndMortyApp.swift */,
 				4EDE4F722BDA84EE002F7671 /* Assets.xcassets */,
 				4EDE4F742BDA84EE002F7671 /* Preview Content */,
 			);
