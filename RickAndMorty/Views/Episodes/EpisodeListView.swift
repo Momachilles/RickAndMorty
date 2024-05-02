@@ -44,7 +44,10 @@ struct EpisodeListView: View {
       }
 
       Section("Episodes") {
-
+        ForEach(character.episode, id: \.self) { urlString in
+          EpisodeRowView(urlString: urlString)
+            .environment(RickAndMortyNetworkClient(networkService: NetworkService()))
+        }
       }
     }
   }
