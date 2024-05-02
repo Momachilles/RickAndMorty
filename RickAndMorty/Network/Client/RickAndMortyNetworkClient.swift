@@ -9,6 +9,7 @@ import SwiftUI
 
 protocol RickAndMortyAPI {
   func characters() async throws -> Characters
+  func characters(by name: String) async throws -> Characters
   func episode(from urlString: String) async throws -> Episode
 }
 
@@ -24,6 +25,10 @@ class RickAndMortyNetworkClient {
 extension RickAndMortyNetworkClient: RickAndMortyAPI {
   func characters() async throws -> Characters {
     try await networkService.request(from: CharactersEndpoint())
+  }
+  
+  func characters(by name: String) async throws -> Characters {
+    try await networkService.request(from: CharactersEndpoint(name: name))
   }
   
   func episode(from urlString: String) async throws -> Episode {

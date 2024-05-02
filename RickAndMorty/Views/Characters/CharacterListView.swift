@@ -20,16 +20,16 @@ struct CharacterListView: View {
   @State private var searchText = ""
   
   var body: some View {
-    VStack {
-      switch viewState {
-      case .loading:
-        Text("Loading characters ...")
-        ProgressView()
-      case .error(let errorMessage):
-        Text("Error: \(errorMessage)")
-          .foregroundColor(.red)
-      case .characters(let characters):
-        NavigationStack {
+    NavigationStack {
+      VStack {
+        switch viewState {
+        case .loading:
+          Text("Loading characters ...")
+          ProgressView()
+        case .error(let errorMessage):
+          Text("Error: \(errorMessage)")
+            .foregroundColor(.red)
+        case .characters(let characters):
           List {
             ForEach(characters.results, id: \.id) { character in
               CharacterRowView(character: character)
@@ -46,9 +46,14 @@ struct CharacterListView: View {
           .searchable(text: $searchText, prompt: "Character name")
         }
       }
+      .task {
+        await fetchCharacters()
+      }
+      .onChange(of: searchText) { oldValue, newValue in
+        Task {
+          await fetchCharacters()
+        }
     }
-    .task {
-      await fetchCharacters()
     }
   }
   
@@ -60,7 +65,7 @@ struct CharacterListView: View {
 extension CharacterListView {
   private func fetchCharacters() async {
     do {
-      viewState = try await .characters(api.characters())
+      viewState = try await .characters(api.characters(by: searchText))
     } catch {
       viewState = .error(error.localizedDescription)
     }
