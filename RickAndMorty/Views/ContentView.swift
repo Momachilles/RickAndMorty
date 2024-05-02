@@ -11,7 +11,7 @@ struct ContentView: View {
   
   var body: some View {
     NavigationStack {
-      CharacterListview()
+      CharacterListView()
         .environment(RickAndMortyNetworkClient(networkService: NetworkService()))
     }
   }

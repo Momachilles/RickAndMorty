@@ -1,5 +1,5 @@
 //
-//  CharacterListview.swift
+//  CharacterListView.swift
 //  RickAndMorty
 //
 //  Created by David Alarcon on 25/4/24.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct CharacterListview: View {
+struct CharacterListView: View {
   @Environment(RickAndMortyNetworkClient.self) private var api
   
   enum ViewState {
@@ -48,7 +48,7 @@ struct CharacterListview: View {
   }
 }
 
-extension CharacterListview {
+extension CharacterListView {
   private func fetchCharacters() async {
     do {
       viewState = try await .characters(api.characters())
@@ -60,7 +60,7 @@ extension CharacterListview {
 
 #Preview {
   NavigationStack {
-    CharacterListview()
+    CharacterListView()
       .environment(RickAndMortyNetworkClient(networkService: NetworkService()))
   }
 }
