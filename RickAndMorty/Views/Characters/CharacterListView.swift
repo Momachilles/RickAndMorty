@@ -17,6 +17,7 @@ struct CharacterListView: View {
   }
   
   @State private var viewState: ViewState = .loading
+  @State private var searchText = ""
   
   var body: some View {
     VStack {
@@ -42,6 +43,7 @@ struct CharacterListView: View {
           .navigationDestination(for: Character.self) { character in
             EpisodeListView(character: character)
           }
+          .searchable(text: $searchText, prompt: "Character name")
         }
       }
     }
