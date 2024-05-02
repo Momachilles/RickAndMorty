@@ -19,7 +19,7 @@ struct CharacterRowView: View {
           image
             .resizable()
             .aspectRatio(contentMode: .fit)
-        case .failure(let error):
+        case .failure(_):
           Image(systemName: "person.crop.circle.badge.exclamationmark")
         @unknown default:
           Image(systemName: "person.crop.circle.badge.exclamationmark")
@@ -39,6 +39,10 @@ struct CharacterRowView: View {
   }
 }
   
-//#Preview {
-//  CharacterRowView()
-//}
+#Preview {
+  if let character = try? DummyCharactersLoader.loadCharacters().results.first {
+    return CharacterRowView(character: character)
+  } else {
+    return Text("something went wrong.")
+  }
+}
