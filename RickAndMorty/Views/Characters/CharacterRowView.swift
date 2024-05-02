@@ -43,6 +43,6 @@ struct CharacterRowView: View {
   if let character = try? DummyCharactersLoader.loadCharacters().results.first {
     return CharacterRowView(character: character)
   } else {
-    return Text("something went wrong.")
+    return Text("Something went wrong.")
   }
 }
