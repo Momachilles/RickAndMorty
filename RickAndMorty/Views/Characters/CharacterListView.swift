@@ -32,9 +32,16 @@ struct CharacterListView: View {
           List {
             ForEach(characters.results, id: \.id) { character in
               CharacterRowView(character: character)
+                .background {
+                  NavigationLink(value: character) {}
+                    .opacity(.zero)
+                }
             }
           }
           .navigationTitle("R&M Characters")
+          .navigationDestination(for: Character.self) { character in
+            EpisodeListView(character: character)
+          }
         }
       }
     }

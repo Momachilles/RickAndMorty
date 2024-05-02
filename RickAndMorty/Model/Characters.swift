@@ -38,3 +38,16 @@ struct Location: Codable {
   let name: String
   let url: String
 }
+
+extension Character: Equatable {
+  static func == (lhs: Character, rhs: Character) -> Bool {
+    lhs.id == rhs.id
+  }
+}
+
+extension Character: Hashable {
+  func hash(into hasher: inout Hasher) {
+    hasher.combine(id)
+    hasher.combine(name)
+  }
+}
