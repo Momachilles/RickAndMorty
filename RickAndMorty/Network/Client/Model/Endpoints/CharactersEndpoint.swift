@@ -7,6 +7,6 @@
 
 import Foundation
 
-class CharactersEndpoint: RickAndMortyEndpoint {
+struct CharactersEndpoint: RickAndMortyEndpoint {
   var path: String { "/character" }
 }
