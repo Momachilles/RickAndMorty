@@ -35,6 +35,10 @@ struct EpisodeListView: View {
               .font(.title)
             Text(character.location.name)
               .font(.headline)
+            Text(character.origin.name)
+              .font(.headline)
+            Text(character.species)
+              .font(.headline)
           }
         }
       }
