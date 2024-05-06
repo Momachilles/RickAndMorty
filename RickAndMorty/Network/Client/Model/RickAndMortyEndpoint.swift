@@ -7,7 +7,9 @@
 
 import Foundation
 
-protocol RickAndMortyEndpoint: Endpoint, URLRequestable {}
+protocol RickAndMortyEndpoint: Endpoint, URLRequestable {
+  var urlString: String? { get set }
+}
 
 extension RickAndMortyEndpoint {
   var scheme: String { "https" }
@@ -15,10 +17,14 @@ extension RickAndMortyEndpoint {
   var baseURLString: String { "/api" }
   var queryParameters: [String : String]? { .none }
   var method: Method { .get }
+  var urlString: String? { .none }
+  var path: String { "" }
 }
 
 extension RickAndMortyEndpoint {
   var urlRequest: URLRequest? {
+    if let urlString = urlString, let url = URL(string: urlString) { return URLRequest(url: url) }
+    
     var components = URLComponents()
     components.scheme = scheme
     components.host = host

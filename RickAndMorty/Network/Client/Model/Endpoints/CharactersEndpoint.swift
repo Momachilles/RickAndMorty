@@ -9,6 +9,7 @@ import Foundation
 
 struct CharactersEndpoint: RickAndMortyEndpoint {
   var name: String?
+  var urlString: String?
   var path: String { "/character" }
   var queryParameters: [String : String]? {
     var parameters: [String: String] = [:]

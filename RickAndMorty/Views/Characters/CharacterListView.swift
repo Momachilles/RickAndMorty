@@ -37,6 +37,15 @@ struct CharacterListView: View {
                   NavigationLink(value: character) {}
                     .opacity(.zero)
                 }
+                .onAppear {
+                  if character.id == characters.results.last?.id ?? .zero,
+                     let next = characters.info.next {
+                    Task { await nextCharacters(from: next) }
+                  }
+                }
+              if character.id == characters.results.last?.id ?? .zero {
+                Text("Fetch next page.")
+              }
             }
           }
           .navigationTitle("R&M Characters")
@@ -66,6 +75,14 @@ extension CharacterListView {
   private func fetchCharacters() async {
     do {
       viewState = try await .characters(api.characters(by: searchText))
+    } catch {
+      viewState = .error(error.localizedDescription)
+    }
+  }
+  
+  private func nextCharacters(from urlString: String) async {
+    do {
+      viewState = try await .characters(api.characters(by: searchText, next: urlString))
     } catch {
       viewState = .error(error.localizedDescription)
     }
