@@ -9,16 +9,20 @@ import SwiftUI
 
 struct CharacterListView: View {
   @Environment(RickAndMortyNetworkClient.self) private var api
-  @State private var characters: [Character] = []
+  
+  @State private var characterList: [Character] = []
+  @State private var viewState: ViewState = .loading
+  @State private var searchText = ""
+  
+  private var filteredCharacterList: [Character] {
+    searchText.isEmpty ? characterList : characterList.filter { $0.name.contains(searchText) }
+  }
   
   enum ViewState {
     case loading
     case error(_ errorMessage: String)
     case characters(_ data: Characters)
   }
-  
-  @State private var viewState: ViewState = .loading
-  @State private var searchText = ""
   
   var body: some View {
     NavigationStack {
@@ -32,19 +36,19 @@ struct CharacterListView: View {
             .foregroundColor(.red)
         case .characters(let allCharacters):
           List {
-            ForEach(characters, id: \.id) { character in
+            ForEach(filteredCharacterList, id: \.id) { character in
               CharacterRowView(character: character)
                 .background {
                   NavigationLink(value: character) {}
                     .opacity(.zero)
                 }
                 .onAppear {
-                  if character.id == characters.last?.id ?? .zero,
+                  if character.id == characterList.last?.id ?? .zero,
                      let next = allCharacters.info.next {
                     Task { await nextCharacters(from: next) }
                   }
                 }
-              if character.id == characters.last?.id ?? .zero {
+              if character.id == characterList.last?.id ?? .zero {
                 Text("Fetch next page.")
               }
             }
@@ -59,11 +63,6 @@ struct CharacterListView: View {
       .task {
         await fetchCharacters()
       }
-      .onChange(of: searchText) { oldValue, newValue in
-        Task {
-          await fetchCharacters()
-        }
-    }
     }
   }
   
@@ -76,7 +75,7 @@ extension CharacterListView {
   private func fetchCharacters() async {
     do {
       let allCharacters = try await api.characters(by: searchText)
-      characters.append(contentsOf: allCharacters.results)
+      characterList.append(contentsOf: allCharacters.results)
       viewState = .characters(allCharacters)
     } catch {
       viewState = .error(error.localizedDescription)
@@ -85,9 +84,8 @@ extension CharacterListView {
   
   private func nextCharacters(from urlString: String) async {
     do {
-      // viewState = try await .characters(api.characters(by: searchText, next: urlString))
       let allCharacters = try await api.characters(by: searchText, next: urlString)
-      characters.append(contentsOf: allCharacters.results)
+      characterList.append(contentsOf: allCharacters.results)
       viewState = .characters(allCharacters)
     } catch {
       viewState = .error(error.localizedDescription)
