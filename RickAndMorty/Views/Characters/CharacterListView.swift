@@ -9,6 +9,7 @@ import SwiftUI
 
 struct CharacterListView: View {
   @Environment(RickAndMortyNetworkClient.self) private var api
+  @State private var characters: [Character] = []
   
   enum ViewState {
     case loading
@@ -29,21 +30,21 @@ struct CharacterListView: View {
         case .error(let errorMessage):
           Text("Error: \(errorMessage)")
             .foregroundColor(.red)
-        case .characters(let characters):
+        case .characters(let allCharacters):
           List {
-            ForEach(characters.results, id: \.id) { character in
+            ForEach(characters, id: \.id) { character in
               CharacterRowView(character: character)
                 .background {
                   NavigationLink(value: character) {}
                     .opacity(.zero)
                 }
                 .onAppear {
-                  if character.id == characters.results.last?.id ?? .zero,
-                     let next = characters.info.next {
+                  if character.id == characters.last?.id ?? .zero,
+                     let next = allCharacters.info.next {
                     Task { await nextCharacters(from: next) }
                   }
                 }
-              if character.id == characters.results.last?.id ?? .zero {
+              if character.id == characters.last?.id ?? .zero {
                 Text("Fetch next page.")
               }
             }
@@ -74,7 +75,9 @@ struct CharacterListView: View {
 extension CharacterListView {
   private func fetchCharacters() async {
     do {
-      viewState = try await .characters(api.characters(by: searchText))
+      let allCharacters = try await api.characters(by: searchText)
+      characters.append(contentsOf: allCharacters.results)
+      viewState = .characters(allCharacters)
     } catch {
       viewState = .error(error.localizedDescription)
     }
@@ -82,7 +85,10 @@ extension CharacterListView {
   
   private func nextCharacters(from urlString: String) async {
     do {
-      viewState = try await .characters(api.characters(by: searchText, next: urlString))
+      // viewState = try await .characters(api.characters(by: searchText, next: urlString))
+      let allCharacters = try await api.characters(by: searchText, next: urlString)
+      characters.append(contentsOf: allCharacters.results)
+      viewState = .characters(allCharacters)
     } catch {
       viewState = .error(error.localizedDescription)
     }
