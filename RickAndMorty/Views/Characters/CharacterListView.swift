@@ -13,6 +13,7 @@ struct CharacterListView: View {
   @State private var characterList: [Character] = []
   @State private var viewState: ViewState = .loading
   @State private var searchText = ""
+  @State private var currentPage = Int.zero
   
   private var filteredCharacterList: [Character] {
     searchText.isEmpty ? characterList : characterList.filter { $0.name.contains(searchText) }
@@ -35,57 +36,55 @@ struct CharacterListView: View {
           Text("Error: \(errorMessage)")
             .foregroundColor(.red)
         case .characters(let allCharacters):
-          List {
-            ForEach(filteredCharacterList, id: \.id) { character in
-              CharacterRowView(character: character)
-                .background {
-                  NavigationLink(value: character) {}
-                    .opacity(.zero)
-                }
-                .onAppear {
-                  if character.id == characterList.last?.id ?? .zero,
-                     let next = allCharacters.info.next {
-                    Task { await nextCharacters(from: next) }
+          VStack {
+            List {
+              ForEach(filteredCharacterList, id: \.id) { character in
+                CharacterRowView(character: character)
+                  .background {
+                    NavigationLink(value: character) {}
+                      .opacity(.zero)
                   }
-                }
-              if character.id == characterList.last?.id ?? .zero {
-                Text("Fetch next page.")
+                  .onAppear {
+                    if let lastId = characterList.last?.id,
+                       character.id ==  lastId,
+                       let next = allCharacters.info.next {
+                      Task { await fetchNextCharacters(from: next) }
+                    }
+                  }
               }
             }
+            .navigationTitle("R&M Characters")
+            .navigationDestination(for: Character.self) { character in
+              EpisodeListView(character: character)
+            }
+            .searchable(text: $searchText, prompt: "Character name")
           }
-          .navigationTitle("R&M Characters")
-          .navigationDestination(for: Character.self) { character in
-            EpisodeListView(character: character)
+          HStack {
+            Text("Loaded Pages \(currentPage)/\(allCharacters.info.pages)")
+              .font(.subheadline)
+            Spacer()
+            Text("Characters \(String(format: "%.2f", Double(characterList.count * 100)/Double(allCharacters.info.count)))%")
+              .font(.subheadline)
+              .statusBar(hidden: false)
           }
-          .searchable(text: $searchText, prompt: "Character name")
+          .padding([.leading, .trailing], 10)
         }
       }
       .task {
-        await fetchCharacters()
+        if characterList.isEmpty {
+          await fetchNextCharacters()
+        }
       }
     }
-  }
-  
-  private func showError(message: String) {
-    viewState = .error(message)
   }
 }
 
 extension CharacterListView {
-  private func fetchCharacters() async {
-    do {
-      let allCharacters = try await api.characters(by: searchText)
-      characterList.append(contentsOf: allCharacters.results)
-      viewState = .characters(allCharacters)
-    } catch {
-      viewState = .error(error.localizedDescription)
-    }
-  }
-  
-  private func nextCharacters(from urlString: String) async {
+  private func fetchNextCharacters(from urlString: String? = .none) async {
     do {
       let allCharacters = try await api.characters(by: searchText, next: urlString)
       characterList.append(contentsOf: allCharacters.results)
+      currentPage += 1
       viewState = .characters(allCharacters)
     } catch {
       viewState = .error(error.localizedDescription)
