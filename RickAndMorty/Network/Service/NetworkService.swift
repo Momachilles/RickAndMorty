@@ -11,7 +11,6 @@ enum NetworkError: Error {
   case invalidURL
   case invalidResponse(URLResponse?)
   case emptyData
-  case requestFailed(Error)
   case invalidJSON(Error)
 }
 
