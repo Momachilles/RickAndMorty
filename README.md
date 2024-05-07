@@ -20,7 +20,7 @@ The MVP would be to have an app where you can review a list of all characters an
 - You can use any library out there but use them wisely, each third party library added is a dependency in your code.
 - Deliver something. We want to review how did you structure the project, if you apply things like SOLID.... This app will let us the chance to talk about actual code.
 - We are a very image oriented company, UX is important.
-- You can use any of the endpoints in [Rick and Marti API](https://rickandmortyapi.com/), we will talk about performance probably...
+- You can use any of the endpoints in [Rick and Morty API](https://rickandmortyapi.com/), we will talk about performance probably...
 - Shine at some aspect. If you think your strongs are about code, we will spend most of the time talking about code despite the app won’t run.
 - If you already have another app develop we can check, don’t spend time on this and send it to us. We will review it using the same criteria.
 
