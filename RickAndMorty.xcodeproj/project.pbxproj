@@ -13,6 +13,10 @@
 		4E38DB342BEA0C0D00CF487A /* DummyInvalidURLEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E38DB2E2BEA0C0D00CF487A /* DummyInvalidURLEndpoint.swift */; };
 		4E38DB352BEA0C0D00CF487A /* DummyTestModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E38DB302BEA0C0D00CF487A /* DummyTestModel.swift */; };
 		4E38DB382BEA182D00CF487A /* XCTAssertThrowsErrorAsync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E38DB372BEA182D00CF487A /* XCTAssertThrowsErrorAsync.swift */; };
+		4E38DB3B2BEA2CF800CF487A /* RickAndMortyNetworkClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E38DB3A2BEA2CF800CF487A /* RickAndMortyNetworkClientTests.swift */; };
+		4E38DB3D2BEA33DD00CF487A /* MockNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E38DB3C2BEA33DD00CF487A /* MockNetworkService.swift */; };
+		4E38DB3F2BEA44D300CF487A /* Episode.json in Resources */ = {isa = PBXBuildFile; fileRef = 4E38DB3E2BEA44D300CF487A /* Episode.json */; };
+		4E38DB412BEA450600CF487A /* DummyEpisodeLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E38DB402BEA450600CF487A /* DummyEpisodeLoader.swift */; };
 		4E8C72312BE371DC0076B8DE /* CharacterRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E8C72302BE371DC0076B8DE /* CharacterRowView.swift */; };
 		4E8C72352BE3744E0076B8DE /* AllCharacters.json in Resources */ = {isa = PBXBuildFile; fileRef = 4E8C72342BE3744E0076B8DE /* AllCharacters.json */; };
 		4E8C72372BE374A90076B8DE /* DummyCharactersLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E8C72362BE374A90076B8DE /* DummyCharactersLoader.swift */; };
@@ -59,6 +63,10 @@
 		4E38DB2E2BEA0C0D00CF487A /* DummyInvalidURLEndpoint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DummyInvalidURLEndpoint.swift; sourceTree = "<group>"; };
 		4E38DB302BEA0C0D00CF487A /* DummyTestModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DummyTestModel.swift; sourceTree = "<group>"; };
 		4E38DB372BEA182D00CF487A /* XCTAssertThrowsErrorAsync.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XCTAssertThrowsErrorAsync.swift; sourceTree = "<group>"; };
+		4E38DB3A2BEA2CF800CF487A /* RickAndMortyNetworkClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RickAndMortyNetworkClientTests.swift; sourceTree = "<group>"; };
+		4E38DB3C2BEA33DD00CF487A /* MockNetworkService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockNetworkService.swift; sourceTree = "<group>"; };
+		4E38DB3E2BEA44D300CF487A /* Episode.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Episode.json; sourceTree = "<group>"; };
+		4E38DB402BEA450600CF487A /* DummyEpisodeLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummyEpisodeLoader.swift; sourceTree = "<group>"; };
 		4E8C72302BE371DC0076B8DE /* CharacterRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterRowView.swift; sourceTree = "<group>"; };
 		4E8C72342BE3744E0076B8DE /* AllCharacters.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = AllCharacters.json; sourceTree = "<group>"; };
 		4E8C72362BE374A90076B8DE /* DummyCharactersLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummyCharactersLoader.swift; sourceTree = "<group>"; };
@@ -112,8 +120,9 @@
 		4E38DB262BEA052500CF487A /* Network */ = {
 			isa = PBXGroup;
 			children = (
-				4E38DB322BEA0C0D00CF487A /* Dummies */,
+				4E38DB392BEA2C0C00CF487A /* Client */,
 				4E38DB2A2BEA0A7200CF487A /* Service */,
+				4E38DB322BEA0C0D00CF487A /* Dummies */,
 				4E38DB272BEA096200CF487A /* Mocks */,
 			);
 			path = Network;
@@ -122,6 +131,7 @@
 		4E38DB272BEA096200CF487A /* Mocks */ = {
 			isa = PBXGroup;
 			children = (
+				4E38DB3C2BEA33DD00CF487A /* MockNetworkService.swift */,
 				4E38DB282BEA098700CF487A /* MockURLProtocol.swift */,
 			);
 			path = Mocks;
@@ -169,10 +179,19 @@
 			path = Utils;
 			sourceTree = "<group>";
 		};
+		4E38DB392BEA2C0C00CF487A /* Client */ = {
+			isa = PBXGroup;
+			children = (
+				4E38DB3A2BEA2CF800CF487A /* RickAndMortyNetworkClientTests.swift */,
+			);
+			path = Client;
+			sourceTree = "<group>";
+		};
 		4E8C72322BE374130076B8DE /* Utils */ = {
 			isa = PBXGroup;
 			children = (
 				4E8C72362BE374A90076B8DE /* DummyCharactersLoader.swift */,
+				4E38DB402BEA450600CF487A /* DummyEpisodeLoader.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -181,6 +200,7 @@
 			isa = PBXGroup;
 			children = (
 				4E8C72342BE3744E0076B8DE /* AllCharacters.json */,
+				4E38DB3E2BEA44D300CF487A /* Episode.json */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -443,6 +463,7 @@
 				4EDE4F762BDA84EE002F7671 /* Preview Assets.xcassets in Resources */,
 				4EDE4F732BDA84EE002F7671 /* Assets.xcassets in Resources */,
 				4E8C72352BE3744E0076B8DE /* AllCharacters.json in Resources */,
+				4E38DB3F2BEA44D300CF487A /* Episode.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -482,6 +503,7 @@
 				4E8C72372BE374A90076B8DE /* DummyCharactersLoader.swift in Sources */,
 				4E8C72312BE371DC0076B8DE /* CharacterRowView.swift in Sources */,
 				4E8C72402BE397240076B8DE /* EpisodeRowView.swift in Sources */,
+				4E38DB412BEA450600CF487A /* DummyEpisodeLoader.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -489,7 +511,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4E38DB3D2BEA33DD00CF487A /* MockNetworkService.swift in Sources */,
 				4E38DB2C2BEA0A9D00CF487A /* NetworkServiceTests.swift in Sources */,
+				4E38DB3B2BEA2CF800CF487A /* RickAndMortyNetworkClientTests.swift in Sources */,
 				4E38DB332BEA0C0D00CF487A /* DummyEndpoint.swift in Sources */,
 				4E38DB382BEA182D00CF487A /* XCTAssertThrowsErrorAsync.swift in Sources */,
 				4E38DB292BEA098700CF487A /* MockURLProtocol.swift in Sources */,
